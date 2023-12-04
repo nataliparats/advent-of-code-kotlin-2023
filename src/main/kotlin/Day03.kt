@@ -8,9 +8,7 @@ object Day03 {
         return numbers.filter { number ->
             number.points.any { numberPoint ->
                 symbols.any { symbolPoint ->
-                    abs(numberPoint.x - symbolPoint.point.x) <= 1
-                            &&
-                            abs(numberPoint.y - symbolPoint.point.y) <= 1
+                    isAdjacent(numberPoint, symbolPoint)
                 }
             }
         }.sumOf { number -> number.value }
@@ -24,9 +22,7 @@ object Day03 {
         return symbols.sumOf { symbol ->
             val adjacentNumbers = numbers.filter { number ->
                 number.points.any { numberPoint ->
-                    abs(numberPoint.x - symbol.point.x) <= 1
-                            &&
-                            abs(numberPoint.y - symbol.point.y) <= 1
+                    isAdjacent(numberPoint, symbol)
                 }
             }
             if (adjacentNumbers.size == 2) {
@@ -60,6 +56,10 @@ object Day03 {
 
         return symbols.toSet()
     }
+
+    private fun isAdjacent(numberPoint: Point, symbolPoint: Symbol) = (abs(numberPoint.x - symbolPoint.point.x) <= 1
+            &&
+            abs(numberPoint.y - symbolPoint.point.y) <= 1)
 
     data class Point (val x: Int, val y: Int)
     data class Number(val value: Int, val points: List<Point>)
